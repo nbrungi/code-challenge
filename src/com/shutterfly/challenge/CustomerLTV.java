@@ -1,12 +1,12 @@
 package com.shutterfly.challenge;
 import java.io.File;
 /*
- * input_2_customers - main function which calls the ingest
- * to ingest the data and TopXSimpleLTVCustomers - calculate the Lifetime 
- * values of the customers and writes the top n customers to the output file
- * 
+ * main function which calls the ingest method to ingest the data and 
+ * TopXSimpleLTVCustomers method to calculate the Lifetime values of the customers and 
+ * writes the top n customers to the output file
  * * ******** External jar used: json-simple-1.1.1 *********
  */
+
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
@@ -43,7 +43,7 @@ public class CustomerLTV {
 		String out_dir = dir + "/output/";
 		// Call TopXSimpleLTVCustomers to get top N customers with highest LTV
 		cltv.TopXSimpleLTVCustomers(3, data, out_dir);
-		System.out.println("Completed successfully");
+		System.out.println("Check the output folder for viewing customer LTV data");
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -62,9 +62,9 @@ public class CustomerLTV {
 		return eventreader.getCustomersTransactions();
 	}
 
-	/*summarizeAvgWeeklyExp calculates major metrics like total no of visits per week,
+	/* summarizeAvgWeeklyExp calculates metrics like total number of visits per week,
 	 * expenditures per visit per week and the lifetime values of each customer.
-	 * The result is stored in-memory which will be used by 
+	 * The result is stored in-memory which will be used to get LTV.
 	 */
 	void summarizeAvgWeeklyExp(String customer_id,
 			HashMap<Integer, WeeklyTransaction> weeklyTransactions) {
@@ -103,8 +103,8 @@ public class CustomerLTV {
 	 * will be placed, ranks the customers with top N high lifetime values
 	 * and writes it to a csv file
 	 * 
-	 * Note: The filename is a constant with a timestamp attached as follows:
-	 * top_n_lifetime_values_yyyyMMddHHmmss.csvs
+	 * The output filename with customer details will be in the below format in /output folder:
+	 * top_n_LTV_yyyyMMddHHmmss.csv
 	 */
 	void TopXSimpleLTVCustomers(int n, Object obj, String out_dir)
 			throws ParseException, FileNotFoundException {
@@ -124,7 +124,7 @@ public class CustomerLTV {
 		Date today = Calendar.getInstance().getTime();
 		String formatDate = sdf.format(today);
 		PrintWriter pw = new PrintWriter(new File(out_dir + "top_" + n
-				+ "_lifetime_values_" + formatDate + "test.csv"));
+				+ "_LTV_" + formatDate + "test.csv"));
 		pw.write("customer_id,last_name,state,lifetime_value\n");
 
 		Collections.sort(customerValues, new Comparator<CustomerValue>() {
