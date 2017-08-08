@@ -124,7 +124,7 @@ public class CustomerLTV {
 		Date today = Calendar.getInstance().getTime();
 		String formatDate = sdf.format(today);
 		PrintWriter pw = new PrintWriter(new File(out_dir + "top_" + n
-				+ "_LTV_" + formatDate + "test.csv"));
+				+ "_LTV_" + formatDate + ".csv"));
 		pw.write("customer_id,last_name,state,lifetime_value\n");
 
 		Collections.sort(customerValues, new Comparator<CustomerValue>() {
